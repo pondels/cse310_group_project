@@ -1,0 +1,28 @@
+body {
+    background-color: #820263;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: #FB8B24;
+    text-align: center;
+}
+#titled {
+    width: 100%;
+    background-color:#291720;
+    padding: 15px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-content: center;
+}
+
+ul {
+    text-align: center;
+}
+
+a:hover {
+    background-color: #820263;
+    padding: 10px;
+    border-radius: 7px;
+}

@@ -29,6 +29,7 @@ The actual chat that is used is below this one.
                 #    "F1#": 21.62, "F2#": 10.81, "F3#": 5.405, "F4#": 2.703, "F5#": 1.351, "F6#": .6757, "F7#": .3378,
                 #    "G1":  20.41, "G2":  10.20, "G3":  5.102, "G4":  2.551, "G5":  1.276, "G6":  .6378, "G7":  .3189,
                 #    "G1#": 19.26, "G2#": 9.631, "G3#": 4.816, "G4#": 2.408, "G5#": 1.204, "G6#": .6020, "G7#": .3010}
+                
 sr, audio = wavfile.read("coconut.wav")
 time, frequency, confidence, activation = crepe.predict(audio, sr, viterbi=True)
 

@@ -13,3 +13,11 @@ Jessica Johnson
 Austin Oldroyd
 
 Samuel Witt
+
+
+# REQUIRED LIBRARIES
+- Librosa
+- Flask
+- Crepe
+- Tensorflow
+

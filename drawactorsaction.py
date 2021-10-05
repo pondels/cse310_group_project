@@ -51,7 +51,8 @@ class DisplayActorsAction():
         '''
         pass
 
-    def updateScreen(self):
+    def updateScreen(self, thickness):
+
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -60,17 +61,16 @@ class DisplayActorsAction():
             background_colour = (0, 0, 0)
             self.screen.fill(background_colour)
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
-            notes = [325, 120, 478, 951, 1063]
-            pygame.draw.aalines(self.screen, self.colour.note2colour(random.choice(notes)), True, (self.coordinates[0], self.coordinates[1]))
-            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-1, self.coordinates[0][1]-1), (self.coordinates[1][0]-1, self.coordinates[1][1]-1))
-            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-2, self.coordinates[0][1]-2), (self.coordinates[1][0]-2, self.coordinates[1][1]-2))
-            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-3, self.coordinates[0][1]-3), (self.coordinates[1][0]-3, self.coordinates[1][1]-3))
-            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-4, self.coordinates[0][1]-4), (self.coordinates[1][0]-4, self.coordinates[1][1]-4))
+            notes = [i for i in range(100, 1300)]
+            print((self.coordinates[0], self.coordinates[1]))
+            print((self.coordinates[0][0]-1, self.coordinates[0][1]-1), (self.coordinates[1][0]-1, self.coordinates[1][1]-1))
+            colorSpec = self.colour.note2colour(random.choice(notes))
+            for i in range(thickness):
+                pygame.draw.aalines(self.screen, colorSpec, True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
-            time.sleep(.05)
+            time.sleep(1)
             self._random_coordinate()
 
-# colour = Colour()
 display = DisplayActorsAction()
 display._random_coordinate()
-display.updateScreen()
+display.updateScreen(random.randrange(45))

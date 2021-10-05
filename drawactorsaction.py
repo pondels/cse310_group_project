@@ -2,6 +2,7 @@ import random
 import pygame
 import time
 from mathEQ import Math
+from colour import Colour
 
 class DisplayActorsAction():
 
@@ -10,6 +11,7 @@ class DisplayActorsAction():
         self.HEIGHT = 720
         self.running = True
         self.math = Math()
+        self.colour = Colour()
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -58,12 +60,17 @@ class DisplayActorsAction():
             background_colour = (0, 0, 0)
             self.screen.fill(background_colour)
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
-            print(slope)
-            pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, (self.coordinates[0], self.coordinates[1]))
+            notes = [325, 120, 478, 951, 1063]
+            pygame.draw.aalines(self.screen, self.colour.note2colour(random.choice(notes)), True, (self.coordinates[0], self.coordinates[1]))
+            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-1, self.coordinates[0][1]-1), (self.coordinates[1][0]-1, self.coordinates[1][1]-1))
+            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-2, self.coordinates[0][1]-2), (self.coordinates[1][0]-2, self.coordinates[1][1]-2))
+            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-3, self.coordinates[0][1]-3), (self.coordinates[1][0]-3, self.coordinates[1][1]-3))
+            # pygame.draw.aalines(self.screen, (random.randrange(255), random.randrange(255), random.randrange(255)), True, ((self.coordinates[0][0]-4, self.coordinates[0][1]-4), (self.coordinates[1][0]-4, self.coordinates[1][1]-4))
             pygame.display.flip()
             time.sleep(.05)
             self._random_coordinate()
 
+# colour = Colour()
 display = DisplayActorsAction()
 display._random_coordinate()
 display.updateScreen()

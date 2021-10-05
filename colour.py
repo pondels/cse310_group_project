@@ -22,8 +22,8 @@ class Colour():
         noteName = librosa.hz_to_note(freq)
         
         noteColour = self.colours.get(noteName[:-1])
-
+        print(noteColour)
         return noteColour
 
-colour = Colour()
-colour.note2colour(695)
+# colour = Colour()
+# colour.note2colour(695)

@@ -13,6 +13,11 @@ class DisplayActorsAction():
         self.math = Math()
         self.colour = Colour()
 
+        # [{"id": 0, "color": (125, 41, 0), "time": 4.145999...},
+        #  {''},
+        #  {''}] How we structure the notes
+        self.notes = [{}]
+
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.flip()
@@ -42,6 +47,13 @@ class DisplayActorsAction():
                 self.coordinates.append((plot, 0))
         return self.coordinates
 
+    def updateNotes(self):
+        '''
+            A function to add and pop notes
+            based on time we want them to be on screen.
+        '''
+        pass
+
     def move_line(self, time, start, end, note):
         '''
             Moves the line over a period of time from
@@ -60,13 +72,15 @@ class DisplayActorsAction():
             
             background_colour = (0, 0, 0)
             self.screen.fill(background_colour)
+
+            # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
+            
             notes = [i for i in range(100, 1300)]
-            print((self.coordinates[0], self.coordinates[1]))
-            print((self.coordinates[0][0]-1, self.coordinates[0][1]-1), (self.coordinates[1][0]-1, self.coordinates[1][1]-1))
             colorSpec = self.colour.note2colour(random.choice(notes))
-            for i in range(thickness):
-                pygame.draw.aalines(self.screen, colorSpec, True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
+            for i in range(len(notes)):
+                for i in range(thickness):
+                    pygame.draw.aalines(self.screen, colorSpec, True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
             time.sleep(1)
             self._random_coordinate()

@@ -16,7 +16,7 @@ class DisplayActorsAction():
         # [{"id": 0, "color": (125, 41, 0), "time": 4.145999...},
         #  {''},
         #  {''}] How we structure the notes
-        self.notes = [{}]
+        self.notes = [{"id": 0, "color": (125, 41, 0), "time":4.1459999}]
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -76,11 +76,11 @@ class DisplayActorsAction():
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
             
-            notes = [i for i in range(100, 1300)]
-            colorSpec = self.colour.note2colour(random.choice(notes))
-            for i in range(len(notes)):
+            # notes = [i for i in range(100, 1300)]
+            # colorSpec = self.colour.note2colour(random.choice(notes))
+            for note in range(len(self.notes)):
                 for i in range(thickness):
-                    pygame.draw.aalines(self.screen, colorSpec, True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
+                    pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
             time.sleep(1)
             self._random_coordinate()

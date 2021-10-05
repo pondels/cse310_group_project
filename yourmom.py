@@ -19,3 +19,5 @@ import essentia
 
 aubio.slice_source_at_stamps('coconut.wav', [44100], [44100 * 5 - 1])
 # print(aubio.slice_source_at_stamps("coconut.wav", timestamps=[15]))
+
+aubio.freq2note()

@@ -16,7 +16,7 @@ class DisplayActorsAction():
         # [{"id": 0, "color": (125, 41, 0), "time": 4.145999...},
         #  {''},
         #  {''}] How we structure the notes
-        self.notes = [{"id": 0, "color": (125, 41, 0), "time":4.1459999}]
+        self.notes = [{"id": 0, "color": (random.randrange(255), random.randrange(255), random.randrange(255)), "time":4.1459999, "thickness": random.randrange(65)}]
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -63,7 +63,7 @@ class DisplayActorsAction():
         '''
         pass
 
-    def updateScreen(self, thickness):
+    def updateScreen(self):
 
         while self.running:
             for event in pygame.event.get():
@@ -79,7 +79,7 @@ class DisplayActorsAction():
             # notes = [i for i in range(100, 1300)]
             # colorSpec = self.colour.note2colour(random.choice(notes))
             for note in range(len(self.notes)):
-                for i in range(thickness):
+                for i in range(self.notes[note]["thickness"]):
                     pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
             time.sleep(1)
@@ -87,4 +87,4 @@ class DisplayActorsAction():
 
 display = DisplayActorsAction()
 display._random_coordinate()
-display.updateScreen(random.randrange(45))
+display.updateScreen()

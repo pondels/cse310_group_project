@@ -79,14 +79,14 @@ class DisplayActorsAction():
             self.screen.fill(background_colour)
 
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
-            slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
+            # slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
             
             for note in range(len(self.notes)):
-                for i in range(self.notes[note]["thickness"]):
+                # for i in range(self.notes[note]["thickness"]):
                     pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
-            time.sleep(.1)
-            self._random_coordinate()
+            # time.sleep(.1)
+            # self._random_coordinate()
 
 display = DisplayActorsAction()
 # display._random_coordinate()

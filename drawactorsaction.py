@@ -4,6 +4,12 @@ import time
 from mathEQ import Math
 from colour import Colour
 
+"""
+TODO
+Class: DisplayActorsAction
+Description: What does it do? What does it output? What does it use?
+"""
+
 class DisplayActorsAction():
 
     def __init__(self):
@@ -16,17 +22,27 @@ class DisplayActorsAction():
         # [{"id": 0, "color": (125, 41, 0), "time": 4.145999...},
         #  {''},
         #  {''}] How we structure the notes
+        # TODO What's this | ?
+        #                  V
         self.notes = [{"id": 0, "color": (random.randrange(255), random.randrange(255), random.randrange(255)), "time":4.1459999, "thickness": random.randrange(65)}]
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        # TODO Why are we flipping the display?
         pygame.display.flip()
 
+    """
+    TODO
+    Function: _random_coordinate
+    Description: What does it do? What does it output? What does it use?
+    """
     def _random_coordinate(self):
         '''
             Grabs 2 points on the window where the line
             of trajectory will start and where the line will end
         '''
+        # Is this ^ The description of the function?
+
         fourPlanes = ['Left', 'Right', 'Top', 'Bottom']
         self.coordinates = []
 
@@ -47,11 +63,17 @@ class DisplayActorsAction():
                 self.coordinates.append((plot, 0))
         return self.coordinates
 
+    """
+    TODO
+    Class: Colour
+    Description: What does it do? What does it output? What does it use?
+    """
     def updateNotes(self):
         '''
             A function to add and pop notes
             based on time we want them to be on screen.
         '''
+        # Is this ^ The description of the function?
         pass
 
     def move_line(self, time, start, end, note):
@@ -61,6 +83,7 @@ class DisplayActorsAction():
 
             This "time" variable is dependant on the 
         '''
+        # Is this ^ The description of the function?
         pass
 
     def updateScreen(self):

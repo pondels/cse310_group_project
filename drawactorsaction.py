@@ -4,6 +4,12 @@ import time
 from mathEQ import Math
 from colour import Colour
 
+"""
+TODO
+Class: DisplayActorsAction
+Description: What does it do? What does it output? What does it use?
+"""
+
 class DisplayActorsAction():
 
     def __init__(self):
@@ -16,8 +22,14 @@ class DisplayActorsAction():
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        # TODO Why are we flipping the display?
         pygame.display.flip()
 
+    """
+    TODO
+    Class: Colour
+    Description: What does it do? What does it output? What does it use?
+    """
     def updateNotes(self):
         '''
             A function to add notes to the self.notes
@@ -53,6 +65,7 @@ class DisplayActorsAction():
 
             This "time" variable is dependant on the 
         '''
+        # Is this ^ The description of the function?
         pass
 
     def updateScreen(self):

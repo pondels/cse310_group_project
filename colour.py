@@ -1,8 +1,15 @@
-import librosa as librosa
 
+# TODO Quick explanation of librosa and what we're doing with it
+import librosa as librosa
+"""
+TODO
+Class: Colour
+Description: What does it do? What does it output? What does it use?
+"""
 class Colour():
 
     def __init__(self):
+        # What are these? TODO
         self.colours = {
             "A":(117,0,0),
             "A♯":(255,236,0),
@@ -17,8 +24,13 @@ class Colour():
             "G":(179,0,0),
             "G♯":(238,0,0)
         }
-
+    """
+    TODO
+    Function: note2colour
+    Description: What does it do? What does it output? What does it use?
+    """
     def note2colour(self, freq):
+        # What do these do? How does it do it? TODO
         noteName = librosa.hz_to_note(freq)
         
         noteColour = self.colours.get(noteName[:-1])

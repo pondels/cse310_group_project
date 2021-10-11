@@ -24,7 +24,7 @@ class DisplayActorsAction():
         #  {''}] How we structure the notes
         # TODO What's this | ?
         #                  V
-        self.notes = [{"id": 0, "color": (random.randrange(255), random.randrange(255), random.randrange(255)), "time":4.1459999, "thickness": random.randrange(65)}]
+        self.notes = []
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -70,10 +70,11 @@ class DisplayActorsAction():
     """
     def updateNotes(self):
         '''
-            A function to add and pop notes
-            based on time we want them to be on screen.
+            A function to add notes to the self.notes
+            dictionary.
         '''
         # Is this ^ The description of the function?
+
         pass
 
     def move_line(self, time, start, end, note):
@@ -99,13 +100,11 @@ class DisplayActorsAction():
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
             
-            # notes = [i for i in range(100, 1300)]
-            # colorSpec = self.colour.note2colour(random.choice(notes))
             for note in range(len(self.notes)):
                 for i in range(self.notes[note]["thickness"]):
                     pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
-            time.sleep(1)
+            time.sleep(.1)
             self._random_coordinate()
 
 display = DisplayActorsAction()

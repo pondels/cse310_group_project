@@ -29,7 +29,6 @@ class DisplayActorsAction():
         '''
         fourPlanes = ['Left', 'Right', 'Top', 'Bottom']
         self.coordinates = []
-
         for _ in range(2):
             side = random.choice(fourPlanes)
             fourPlanes.pop(fourPlanes.index(side))
@@ -76,13 +75,11 @@ class DisplayActorsAction():
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
             
-            # notes = [i for i in range(100, 1300)]
-            # colorSpec = self.colour.note2colour(random.choice(notes))
             for note in range(len(self.notes)):
                 for i in range(self.notes[note]["thickness"]):
                     pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
             pygame.display.flip()
-            time.sleep(1)
+            time.sleep(.1)
             self._random_coordinate()
 
 display = DisplayActorsAction()

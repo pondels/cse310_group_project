@@ -12,10 +12,6 @@ class DisplayActorsAction():
         self.running = True
         self.math = Math()
         self.colour = Colour()
-
-        # [{"id": 0, "color": (125, 41, 0), "time": 4.145999...},
-        #  {''},
-        #  {''}] How we structure the notes
         self.notes = []
 
         # Define Pygame Window
@@ -27,10 +23,30 @@ class DisplayActorsAction():
             A function to add notes to the self.notes
             dictionary.
         '''
+        # Opens the CSV File to Read
+        with open("coconut.f0.csv", "r") as file:
+            # Skips the first line in the file
+            next(file)
 
-        pass
+            # Iterates through each line in the CSV File
+            for i in file:
+                # Splits each line up into an array
+                # using the Time, Frequency, and Confidence
+                new_i = i.strip("\n")
+                new_i = new_i.split(',')
+                time = new_i[0]
+                frequency = float(new_i[1])
+                confidence = new_i[2]
+                # Grabs the note and the note color from the colour class
+                # using the note2colour to get an array of the note and its color
+                colorArr = self.colour.note2colour(frequency)
+                noteName = colorArr[0]
+                noteColor = colorArr[1]
+                # Appends the note, the color, the time, the frequency, and the confidence to the notes array
+                self.notes.append([noteName, noteColor, time, frequency, confidence])
+            print(self.notes)
 
-    def move_line(self, time, start, end, note):
+    def updateSpiral(self, time, start, end, note):
         '''
             Moves the line over a period of time from
             point a (start) to point b (end)
@@ -60,5 +76,6 @@ class DisplayActorsAction():
             self._random_coordinate()
 
 display = DisplayActorsAction()
-display._random_coordinate()
-display.updateScreen()
+# display._random_coordinate()
+# display.updateScreen()
+display.updateNotes()

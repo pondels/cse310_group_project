@@ -35,7 +35,8 @@ class Colour():
         
         noteColour = self.colours.get(noteName[:-1])
 
-        return noteColour
+        note = [noteName, noteColour]
+        return note
 
 # colour = Colour()
 # colour.note2colour(695)

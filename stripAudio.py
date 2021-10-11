@@ -13,14 +13,11 @@ the video file to a wav file called strip.wav in the root directory of the
 program project
 """
 def stripAudio(filename):
-    # grabs a clip from a
+    # grabs a video clip for a file path
     my_clip = mp.VideoFileClip(filename)
-
-    # This line may be unnecessary
-    my_clip
 
     # Writes it to an audio file
     my_clip.audio.write_audiofile(r"strip.wav")
 
 # Test it out with this file
-stripAudio(f"ZPqZyIKtW0Y.mp4")
+stripAudio(f"Charlie bit my finger again.mp4")

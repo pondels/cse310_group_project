@@ -56,7 +56,7 @@ class DisplayActorsAction():
                 noteColor = colorArr[1]
                 # Appends the note, the color, the time, the frequency, and the confidence to the notes array
                 self.notes.append([noteName, noteColor, time, frequency, confidence])
-            print(self.notes)
+
 
     def updateSpiral(self, time, start, end, note):
         '''
@@ -81,14 +81,14 @@ class DisplayActorsAction():
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             # slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])
             
-            for note in range(len(self.notes)):
-                # for i in range(self.notes[note]["thickness"]):
-                    pygame.draw.aalines(self.screen, self.notes[note]['color'], True, ((self.coordinates[0][0]-i, self.coordinates[0][1]-i), (self.coordinates[1][0]-i, self.coordinates[1][1]-i)))
-            pygame.display.flip()
+            for note in self.notes:
+                time.sleep(.01)
+                pygame.draw.rect(self.screen, note[1], pygame.Rect(600,300,100,100))
+                pygame.display.flip()
             # time.sleep(.1)
             # self._random_coordinate()
 
 display = DisplayActorsAction()
 # display._random_coordinate()
-# display.updateScreen()
 display.updateNotes()
+display.updateScreen()

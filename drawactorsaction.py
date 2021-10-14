@@ -2,7 +2,7 @@ import random
 import pygame
 import time
 from mathEQ import Math
-from colour import Colour
+from color import Color
 
 """
 TODO
@@ -17,7 +17,7 @@ class DisplayActorsAction():
         self.HEIGHT = 720
         self.running = True
         self.math = Math()
-        self.colour = Colour()
+        self.color = Color()
         self.notes = []
 
         # Define Pygame Window
@@ -27,7 +27,7 @@ class DisplayActorsAction():
 
     """
     TODO
-    Class: Colour
+    Class: Color
     Description: What does it do? What does it output? What does it use?
     """
     def updateNotes(self):
@@ -49,9 +49,9 @@ class DisplayActorsAction():
                 time = new_i[0]
                 frequency = float(new_i[1])
                 confidence = new_i[2]
-                # Grabs the note and the note color from the colour class
-                # using the note2colour to get an array of the note and its color
-                colorArr = self.colour.note2colour(frequency)
+                # Grabs the note and the note color from the color class
+                # using the freq2color to get an array of the note and its color
+                colorArr = self.color.freq2color(frequency)
                 noteName = colorArr[0]
                 noteColor = colorArr[1]
                 # Appends the note, the color, the time, the frequency, and the confidence to the notes array
@@ -75,8 +75,8 @@ class DisplayActorsAction():
                 if event.type == pygame.QUIT:
                     self.running = False
             
-            background_colour = (0, 0, 0)
-            self.screen.fill(background_colour)
+            background_color = (0, 0, 0)
+            self.screen.fill(background_color)
 
             # SLOPE GOING TO BE USED FOR DRAWING THE LINE SLOWLY ACROSS THE SCREEN
             # slope = self.math.slope(self.coordinates[0][0], self.coordinates[0][1], self.coordinates[1][0], self.coordinates[1][1])

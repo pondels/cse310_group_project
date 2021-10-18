@@ -1,8 +1,9 @@
 import random
 import pygame
 import time
-from mathEQ import Math
-from color import Color
+from src.mathEQ import Math
+from src.color import Color
+from src.constants import *
 
 """
 TODO
@@ -36,7 +37,8 @@ class DisplayActorsAction():
             dictionary.
         '''
         # Opens the CSV File to Read
-        with open("coconut.f0.csv", "r") as file:
+        print(PATH)
+        with open(f"{PATH}/csv/coconut.f0.csv", "r") as file:
             # Skips the first line in the file
             next(file)
 

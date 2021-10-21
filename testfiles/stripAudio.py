@@ -21,3 +21,10 @@ def stripAudio(filename):
 
 # Test it out with this file
 stripAudio(f"Charlie bit my finger again.mp4")
+
+# I found while looking at audio realtime that this can 'split' the audio into 2 tracks.
+# The main part of the music and the beat of the music, or mainly just the bass.
+# y, sr = librosa.load('src\wav\coconut.wav')
+# y_harm, y_perc = librosa.effects.hpss(y)
+
+# ^^^ This is the code, but Refer to @showGraph.py in testfiles to see how it works and what it shows

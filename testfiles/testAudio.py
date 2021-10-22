@@ -6,7 +6,7 @@ mixer.init()
 # Currently it only likes .wav extensions so I may change all the files to that
 
 # Path to the audio
-filename = 'Defqwop - Heart Afire (ft. Strix)-hsXeFqj5p7Q.wav'
+filename = ''
 mixer.music.load(filename)
 
 mixer.music.set_volume(1)

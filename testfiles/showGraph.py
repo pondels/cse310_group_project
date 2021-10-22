@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 import librosa.display
-filename = 'testfiles\madam.mp4'
+filename = ''
 y, sr = librosa.load(filename)
 fig, ax = plt.subplots(nrows=3, sharex=True)
 librosa.display.waveshow(y, sr=sr, ax=ax[0])

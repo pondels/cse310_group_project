@@ -1,38 +1,17 @@
 # https://notebook.community/Cortexelus/librosa/examples/LibROSA%20audio%20effects%20and%20playback
 # https://www.geeksforgeeks.org/python-playing-audio-file-in-pygame/
 
-# This takes in a youtube URL and downloads it to the system.
-# Might get database involved once we get things situated
-
-# import aubio // Rip Aubio :<
-
-from youtubeName import videoName
 import os
 
-videoname = videoName()
+# Takes in the youtube link and converts the file to a .wav format into the directory
 
-import youtube_dl
-
-ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
-
-youtubeLink = input("Please input a valid youtube URL: ")
-realName = videoname.scrape_info(youtubeLink)
-
-with ydl:
-    result = ydl.extract_info (youtubeLink, download=True, )
-
-if 'entries' in result:
-    # playlist
-    video = result['entires'][0]
-else:
-    video = result
-
-# print(video)
-video_id = video['id']
-print(video_id)
+# I found that using the terminal command for a wav file is much faster than the youtube-dl import for python
+url = input("Please enter a valid Youtube URL: ")
+os.system(f"youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 {url}")
 # https://youtu.be/bXkRj-UcWVM
 
 # This is assuming the file is made using the .mp4 extention
 # Try excepts can be made to change the file to a .mp4 if it returns a noFileFound
-os.rename(f'{video_id}.mp4', f'{realName}.mp4')
 
+# youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 <youtube link>
+# https://www.youtube.com/watch?v=hsXeFqj5p7Q

@@ -3,7 +3,11 @@ from pygame import mixer
 
 mixer.init()
 
-mixer.music.load('src\wav\coconut.wav')
+# Currently it only likes .wav extensions so I may change all the files to that
+
+# Path to the audio
+filename = 'Defqwop - Heart Afire (ft. Strix)-hsXeFqj5p7Q.wav'
+mixer.music.load(filename)
 
 mixer.music.set_volume(1)
 

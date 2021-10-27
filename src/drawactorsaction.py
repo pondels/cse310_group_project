@@ -9,7 +9,7 @@ from src.constants import *
 
 """
 TODO
-Class: DisplayActorsAction
+Class: DrawActorsAction
 Description: What does it do? What does it output? What does it use?
 """
 
@@ -17,7 +17,7 @@ from pygame import mixer
 
 mixer.init()
 
-class DisplayActorsAction():
+class DrawActorsAction():
 
     def __init__(self, filename):
         self.WIDTH = 1280

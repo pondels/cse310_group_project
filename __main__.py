@@ -1,4 +1,4 @@
-from src.drawactorsaction import DisplayActorsAction
+from src.drawactorsaction import DrawActorsAction
 from src.downloadVideo import DownloadVideo
 
 def main():
@@ -25,7 +25,7 @@ def main():
     # use csv as the starting file and NOT src\
     csvFile = 'csv\Hinkik - Outbreaker-kKwAgQPa32s.wav.csv'
     # Display takes in the audioFile
-    display = DisplayActorsAction(audioFile)
+    display = DrawActorsAction(audioFile)
     # display._random_coordinate()
 
     # UpdateNotes takes in the csvFile

@@ -47,6 +47,3 @@ class Color():
         note = [noteName, noteColor]
         return note
 
-color = Color()
-newColor = color.freq2color(695)
-print(newColor)

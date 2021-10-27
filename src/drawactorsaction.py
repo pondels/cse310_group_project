@@ -35,7 +35,7 @@ class DisplayActorsAction():
 
         # Define Pygame Window
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        # TODO Why are we flipping the display?
+        # Flip Draws the window
         pygame.display.flip()
 
     """
@@ -60,17 +60,13 @@ class DisplayActorsAction():
                 # using the Time, Frequency, and Confidence
                 new_i = i.strip("\n")
                 new_i = new_i.split(',')
-                print(new_i)
-                if new_i != ['']:
-                    if new_i[1] == '0.0':
-                        new_i.pop(1)
-                        new_i.insert(1, 0.1)
-                    print(new_i)
+                if new_i != [''] and new_i[1] != '0.0':
                     time = float(new_i[0])
                     frequency = float(new_i[1])
                     confidence = float(new_i[2])
                     # Grabs the note and the note color from the color class
                     # using the freq2color to get an array of the note and its color
+                    
                     colorArr = self.color.freq2color(frequency)
                     noteName = colorArr[0]
                     noteColor = colorArr[1]
@@ -104,7 +100,7 @@ class DisplayActorsAction():
 
             for note in self.notes:
 
-                self.clock.tick(100)
+                self.clock.tick(110)
 
                 mid_X = self.WIDTH/2
                 mid_Y = self.HEIGHT/2
@@ -113,10 +109,10 @@ class DisplayActorsAction():
                 startpoint = [int(mid_X), int(mid_Y)]
                 Y_additive = math.cos(math.radians(angle)) * line_length
                 X_additive = math.sin(math.radians(angle)) * line_length
-                if angle < 0 and angle > -90:
+                if angle < 0 and angle < 90:
                     XQ = -1
                     YQ = 1
-                if angle < -90 and angle > -180:
+                if angle < -90 and angle > 180:
                     XQ = -1
                     YQ = -1
                 if angle < -180 and angle > -270:
@@ -131,8 +127,8 @@ class DisplayActorsAction():
                 time.sleep(.01)
                 pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
                 pygame.display.flip()
-                angle = angle - 1
-                line_length+=.5
-                if angle == -270:
-                    angle = 90
+                angle -= 1
+                line_length += .01
+                # if angle == -270:
+                #     angle = 90
             self.running = False

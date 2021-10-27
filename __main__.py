@@ -21,8 +21,9 @@ def main():
 
     # Currently Temporary inputs for audio and csv
     # While I work on getting pathing figured out
-    audioFile = 'src\wav\coconut.wav'
-    csvFile = 'csv\coconut.f0.csv'
+    audioFile = 'src\wav\Hinkik - Outbreaker-kKwAgQPa32s.wav'
+    # use csv as the starting file and NOT src\
+    csvFile = 'csv\Hinkik - Outbreaker-kKwAgQPa32s.wav.csv'
     # Display takes in the audioFile
     display = DisplayActorsAction(audioFile)
     # display._random_coordinate()

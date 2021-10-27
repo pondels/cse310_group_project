@@ -6,7 +6,7 @@ mixer.init()
 # Currently it only likes .wav extensions so I may change all the files to that
 
 # Path to the audio
-filename = ''
+filename = 'Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav'
 mixer.music.load(filename)
 
 mixer.music.set_volume(1)

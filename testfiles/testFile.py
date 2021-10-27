@@ -40,7 +40,7 @@ noteFrequencies = {"A0": 27.500, "A0#": 29.135, "B0": 30.868, "C1": 32.703, "C1#
                    "A6": 1760.0, "A6#": 1864.7, "B6": 1975.5, "C7": 2093.0, "C7#": 2217.5, "D7": 2349.3, "D7#": 2489.0, "E7": 2637.0, "F7": 2793.0, "F7#": 2960.0, "G7": 3136.0, "G7#": 3322.4,
                    "A7": 3520.0, "A7#": 3729.3, "B7": 3951.1, "C8": 4186.0}
                 
-filename = "Hinkik - Outbreaker-kKwAgQPa32s.wav"
+filename = "Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav"
 sr, audio = wavfile.read(filename)
 time, frequency, confidence, activation = crepe.predict(audio, sr, viterbi=True)
 

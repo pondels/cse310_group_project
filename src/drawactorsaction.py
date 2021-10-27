@@ -94,13 +94,13 @@ class DrawActorsAction():
             self.screen.fill(background_color)
 
             line_length = 20
-            angle = 90
+            angle = 0
             
             mixer.music.play()
 
             for note in self.notes:
-
-                self.clock.tick(110)
+                print(note)
+                self.clock.tick(100)
 
                 mid_X = self.WIDTH/2
                 mid_Y = self.HEIGHT/2
@@ -111,7 +111,6 @@ class DrawActorsAction():
 
                 endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
                 
-                time.sleep(.01)
                 pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
                 pygame.display.flip()
 
@@ -121,6 +120,6 @@ class DrawActorsAction():
                 else:
                     angle = 359
 
-                line_length += .01
+                line_length = note[3] / note[2]
 
             self.running = False

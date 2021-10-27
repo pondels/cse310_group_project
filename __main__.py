@@ -21,9 +21,9 @@ def main():
 
     # Currently Temporary inputs for audio and csv
     # While I work on getting pathing figured out
-    audioFile = 'src\wav\Hinkik - Outbreaker-kKwAgQPa32s.wav'
+    audioFile = 'src\wav\Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav'
     # use csv as the starting file and NOT src\
-    csvFile = 'csv\Hinkik - Outbreaker-kKwAgQPa32s.wav.csv'
+    csvFile = 'csv\Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav.csv'
     # Display takes in the audioFile
     display = DrawActorsAction(audioFile)
     # display._random_coordinate()

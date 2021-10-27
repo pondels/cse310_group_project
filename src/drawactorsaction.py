@@ -104,31 +104,23 @@ class DrawActorsAction():
 
                 mid_X = self.WIDTH/2
                 mid_Y = self.HEIGHT/2
-                XQ = 1
-                YQ = 1
+
                 startpoint = [int(mid_X), int(mid_Y)]
                 Y_additive = math.cos(math.radians(angle)) * line_length
                 X_additive = math.sin(math.radians(angle)) * line_length
-                if angle < 0 and angle < 90:
-                    XQ = -1
-                    YQ = 1
-                if angle < -90 and angle > 180:
-                    XQ = -1
-                    YQ = -1
-                if angle < -180 and angle > -270:
-                    XQ = 1
-                    YQ = -1
-                else:
-                    XQ= 1
-                    YQ = 1
-                endpoint = [int((mid_X + X_additive) * XQ), int((mid_Y + Y_additive)*YQ)]
-                
 
+                endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
+                
                 time.sleep(.01)
                 pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
                 pygame.display.flip()
-                angle -= 1
+
+                # checks and updates the angle
+                if angle > 0:
+                    angle -= 1
+                else:
+                    angle = 359
+
                 line_length += .01
-                # if angle == -270:
-                #     angle = 90
+
             self.running = False

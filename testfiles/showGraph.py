@@ -1,8 +1,6 @@
-
-
 import matplotlib.pyplot as plt
 import librosa.display
-filename = ''
+filename = 'Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav'
 y, sr = librosa.load(filename)
 fig, ax = plt.subplots(nrows=3, sharex=True)
 librosa.display.waveshow(y, sr=sr, ax=ax[0])

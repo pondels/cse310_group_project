@@ -24,3 +24,7 @@ Samuel Witt
 - Flask
 - Crepe
 - Tensorflow
+- Youtube_dl
+- Aubio
+- Pygame
+- bs4 (beautifulsoup)

@@ -93,10 +93,13 @@ class DrawActorsAction():
             background_color = (0, 0, 0)
             self.screen.fill(background_color)
 
-            line_length = 20
+            line_length = 40
             angle = 0
             
             mixer.music.play()
+            backwards = []
+            
+            
 
             for note in self.notes:
                 print(note)
@@ -111,8 +114,13 @@ class DrawActorsAction():
 
                 endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
                 
+                
                 pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
                 pygame.display.flip()
+                # backwards.append([note[1], startpoint, endpoint])
+                
+                
+
 
                 # checks and updates the angle
                 if angle > 0:
@@ -120,6 +128,15 @@ class DrawActorsAction():
                 else:
                     angle = 359
 
-                line_length = note[3] / note[2]
+                line_length = (note[3])
+                #  + 220) / note[2]
+                # line_length = line_length + .5
+            # print(backwards) 
+
+            # for i in range(len(backwards)):
+            #     zi = len(backwards)-i
+            #     print(backwards[zi])
+            #     pygame.draw.lines(self.screen, backwards[zi][0], True, (backwards[zi][1], backwards[zi][2]), 3)
+            #     pygame.display.flip()
 
             self.running = False

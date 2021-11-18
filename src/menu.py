@@ -16,11 +16,11 @@ class Menu():
 
     def menu(self):
         # create button instances
-        start_button = Button(250, 400, self.start_img, 1, self.screen)
-        exit_button = Button(700, 400, self.exit_img, 1, self.screen)
+        start_button = Button(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 1.7, self.start_img, 1, self.screen)
+        exit_button = Button(((SCREEN_WIDTH / 5) * 3), SCREEN_HEIGHT / 1.7, self.exit_img, 1, self.screen)
 
         # create rectangle
-        input_rect = pygame.Rect(250, 250, 1000, 32)
+        input_rect = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2, (SCREEN_WIDTH / 5) * 3, 32)
             
         # color_active stores color(lightskyblue3) which
         # gets active when input box is clicked by user
@@ -80,10 +80,12 @@ class Menu():
             
             # set width of textfield so that text cannot get
             # outside of user's text input
-            input_rect.w = max(100, text_surface.get_width() + 10)
+            input_rect.w = max(((SCREEN_WIDTH / 5) * 3) -16, text_surface.get_width() + 10)
 
             if start_button.draw():
+                # does youtube stuff here
                 print("Start")
+                return "src\wav\coconut.wav"
             if exit_button.draw():
                 print("Exit")
                 run = False

@@ -1,5 +1,5 @@
 import os
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-WIDTH = 1280
-HEIGHT = 720
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720

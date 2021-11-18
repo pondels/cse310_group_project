@@ -1,8 +1,9 @@
 import pygame
 
-# Create display window
-SCREEN_HEIGHT = 720
-SCREEN_WIDTH  = 1280
+from src.constants import *
+
+class Menu:
+    pass
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Music Visualizer')

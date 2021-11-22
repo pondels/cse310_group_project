@@ -1,69 +1,95 @@
 import pygame
 
-# Create display window
-SCREEN_HEIGHT = 720
-SCREEN_WIDTH  = 1280
+from src.constants import *
+from src.button import Button
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Music Visualizer')
+class Menu():
+    def __init__(self, screen):
+        self.screen = screen
+        pygame.display.set_caption('Music Visualizer')
+        #load button images
+        self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
+        self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+        # basic font for user typed
+        self.base_font = pygame.font.Font(None, 32)
+        self.user_text = ''
 
-#load button images
-start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
-exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+    def menu(self):
+        # create button instances
+        start_button = Button(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 1.7, self.start_img, 1, self.screen)
+        exit_button = Button(((SCREEN_WIDTH / 5) * 3), SCREEN_HEIGHT / 1.7, self.exit_img, 1, self.screen)
 
-# button class
-class Button():
-    def __init__(self, x, y, image, scale):
-        width = image.get_width()
-        height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-        self.clicked = False
-    
-    def draw(self):
-        action = False
-        #get mouse position
-        pos = pygame.mouse.get_pos()
+        # create rectangle
+        input_rect = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2, (SCREEN_WIDTH / 5) * 3, 32)
+            
+        # color_active stores color(lightskyblue3) which
+        # gets active when input box is clicked by user
+        color_active = pygame.Color('lightskyblue3')
         
+        # color_passive store color(chartreuse4) which is
+        # color of input box.
+        color_passive = pygame.Color('chartreuse4')
+        color = color_passive
 
-        #check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == True and self.clicked == False:
-                self.clicked = True
-                action = True
+        active = False
 
-        if pygame.mouse.get_pressed()[0] == False:
-            self.clicked = False
+        #game loop
+        run = True
 
-        #draw button on screen
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        while run:
+            #event handler
+            for event in pygame.event.get():
+                #quit game
+                if event.type == pygame.QUIT:
+                    run = False
 
-        return action
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if input_rect.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
 
-# create button instances
-start_button = Button(250, 300, start_img, 1)
-exit_button = Button(700, 300, exit_img, 1)
+                if event.type == pygame.KEYDOWN:
+    
+                    # Check for backspace
+                    if event.key == pygame.K_BACKSPACE:
 
+                        # get text input from 0 to -1 i.e. end.
+                        self.user_text = self.user_text[:-1]
 
-#game loop
-run = True
-while run:
+                    # Unicode standard is used for string
+                    # formation
+                    else:
+                        self.user_text += event.unicode
 
-    screen.fill((202, 228, 241))
+            self.screen.fill((202, 228, 241))
 
-    if start_button.draw():
-        print("Start")
-    if exit_button.draw():
-        print("Exit")
-        run = False
+            if active:
+                color = color_active
+            else:
+                color = color_passive
 
-    #event handler
-    for event in pygame.event.get():
-        #quit game
-        if event.type == pygame.QUIT:
-            run = False
+            # draw rectangle and argument passed which should
+            # be on screen
+            pygame.draw.rect(self.screen, color, input_rect)
+        
+            text_surface = self.base_font.render(self.user_text, True, (255, 255, 255))
+            
+            # render at position stated in arguments
+            self.screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
+            
+            # set width of textfield so that text cannot get
+            # outside of user's text input
+            input_rect.w = max(((SCREEN_WIDTH / 5) * 3) -16, text_surface.get_width() + 10)
 
-        pygame.display.update()
+            if start_button.draw():
+                # does youtube stuff here
+                print("Start")
+                return "src\wav\coconut.wav"
+            if exit_button.draw():
+                print("Exit")
+                run = False
 
-pygame.quit()
+            pygame.display.flip()
+            
+        pygame.quit()

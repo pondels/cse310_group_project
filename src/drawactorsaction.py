@@ -3,7 +3,6 @@ import pygame
 import asyncio
 import time
 import math
-from src.mathEQ import Math
 from src.color import Color
 from src.constants import *
 
@@ -23,7 +22,6 @@ class DrawActorsAction():
         self.WIDTH = 1280
         self.HEIGHT = 720
         self.running = True
-        self.math = Math()
         self.color = Color()
         self.notes = []
 
@@ -49,7 +47,6 @@ class DrawActorsAction():
             dictionary.
         '''
         # Opens the CSV File to Read
-        print(PATH)
         with open(f"{PATH}\{csvFile}", "r") as file:
             # Skips the first line in the file
             next(file)
@@ -102,7 +99,6 @@ class DrawActorsAction():
             
 
             for note in self.notes:
-                print(note)
                 self.clock.tick(100)
 
                 mid_X = self.WIDTH/2

@@ -3,6 +3,8 @@ import pygame
 import asyncio
 import time
 import math
+import librosa
+import numpy as np
 from src.color import Color
 from src.constants import *
 
@@ -136,3 +138,29 @@ class DrawActorsAction():
             #     pygame.display.flip()
 
             self.running = False
+
+class AudioAnalyzer:
+
+    def __init__(self):
+
+        self.frequencies_index_ratio = 0  # array for frequencies
+        self.time_index_ratio = 0  # array of time periods
+        self.spectrogram = None  # a matrix that contains decibel values according to frequency and time indexes
+
+    def load(self, filename):
+
+        time_series, sample_rate = librosa.load(filename)  # getting information from the file
+
+        # getting a matrix which contains amplitude values according to frequency and time indexes
+        stft = np.abs(librosa.stft(time_series, hop_length = 512, n_fft = 2048 * 4))
+
+        self.spectrogram = librosa.amplitude_to_db(stft, ref = np.max)  # converting the matrix to decibel matrix
+
+        frequencies = librosa.core.fft_frequencies(n_fft = 2048 * 4)  # getting an array of frequencies
+
+        # getting an array of time periodic
+        times = librosa.core.frames_to_time(np.arange(self.spectrogram.shape[1]), sr=sample_rate, hop_length = 512, n_fft = 2048 * 4)
+
+        self.time_index_ratio = len(times)/times[len(times) - 1]
+
+        self.frequencies_index_ratio = len(frequencies) / frequencies[len(frequencies) - 1]

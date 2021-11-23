@@ -49,7 +49,7 @@ class DrawActorsAction():
             dictionary.
         '''
         # Opens the CSV File to Read
-        with open(f"{PATH}\{csvFile}", "r") as file:
+        with open(csvFile, "r") as file:
             # Skips the first line in the file
             next(file)
 
@@ -59,7 +59,7 @@ class DrawActorsAction():
                 # using the Time, Frequency, and Confidence
                 new_i = i.strip("\n")
                 new_i = new_i.split(',')
-                if new_i != [''] and new_i[1] != '0.0':
+                if new_i != [''] and new_i[1] != '0.000':
                     time = float(new_i[0])
                     frequency = float(new_i[1])
                     confidence = float(new_i[2])

@@ -1,5 +1,7 @@
 import pygame
 
+from src.downloadVideo import DownloadVideo
+from src.wavToCsv import wavToCsv
 from src.constants import *
 from src.button import Button
 
@@ -13,6 +15,8 @@ class Menu():
         # basic font for user typed
         self.base_font = pygame.font.Font(None, 32)
         self.user_text = ''
+        self.downloadvideo = DownloadVideo()
+        self.wavtocsv = wavToCsv()
 
     def menu(self):
         # create button instances
@@ -85,7 +89,16 @@ class Menu():
             if start_button.draw():
                 # does youtube stuff here
                 print("Start")
-                return "src\wav\coconut.wav"
+                try:
+                    self.downloadvideo.deleteFiles() # Deletes all previous files to avoid problems :>
+                    self.downloadvideo.download(self.user_text) # Downloads the video
+                    self.downloadvideo.renameFile() # Renames the .wav file
+                    wav_file = self.downloadvideo.file # Get's the wav file path
+                    csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
+                    # Show on screen in Green text DOWNLOADING VIDEO...
+                    return str(wav_file), str(csv_file)
+                except: print("INVALID VIDEO URL") # Print in red text ERROR: INVALID VIDEO URL
+
             if exit_button.draw():
                 print("Exit")
                 run = False

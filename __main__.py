@@ -9,8 +9,7 @@ pygame.init()
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     menu = Menu(screen)
-    wav_file = menu.menu()
-    csv_file = "csv\coconut.f0.csv"
+    wav_file, csv_file = menu.menu()
     display = DrawActorsAction(wav_file)
     display.updateNotes(csv_file)
     display.updateScreen()

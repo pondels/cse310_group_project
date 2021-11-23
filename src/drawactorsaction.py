@@ -65,7 +65,6 @@ class DrawActorsAction():
                     confidence = float(new_i[2])
                     # Grabs the note and the note color from the color class
                     # using the freq2color to get an array of the note and its color
-                    
                     colorArr = self.color.freq2color(frequency)
                     noteName = colorArr[0]
                     noteColor = colorArr[1]
@@ -92,16 +91,13 @@ class DrawActorsAction():
             background_color = (0, 0, 0)
             self.screen.fill(background_color)
 
-            line_length = 40
             angle = 0
             
             mixer.music.play()
-            backwards = []
-            
-            
+            # root = [] 
 
             for note in self.notes:
-                self.clock.tick(100)
+                line_length = abs(500 - note[3])
 
                 mid_X = self.WIDTH/2
                 mid_Y = self.HEIGHT/2
@@ -109,26 +105,23 @@ class DrawActorsAction():
                 startpoint = [int(mid_X), int(mid_Y)]
                 Y_additive = math.cos(math.radians(angle)) * line_length
                 X_additive = math.sin(math.radians(angle)) * line_length
-
                 endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
-                
                 
                 pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
                 pygame.display.flip()
                 # backwards.append([note[1], startpoint, endpoint])
-                
-                
-
 
                 # checks and updates the angle
                 if angle > 0:
                     angle -= 1
                 else:
                     angle = 359
-
-                line_length = (note[3])
-                #  + 220) / note[2]
-                # line_length = line_length + .5
+                # root.append([note[1], True, (startpoint, endpoint), 3])
+            
+            # for i in root:
+            #     self.clock.tick(100)
+            #     pygame.draw.lines(self.screen, i[0], i[1], i[2], i[3])
+            #     pygame.display.flip()
             # print(backwards) 
 
             # for i in range(len(backwards)):

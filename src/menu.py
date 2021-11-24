@@ -4,6 +4,8 @@ from src.downloadVideo import DownloadVideo
 from src.wavToCsv import wavToCsv
 from src.constants import *
 from src.button import Button
+import src.constants as constants
+import time
 
 class Menu():
     def __init__(self, screen):
@@ -39,6 +41,9 @@ class Menu():
 
         #game loop
         run = True
+
+        # Invalid URL Input
+        failed = False
 
         while run:
             #event handler
@@ -86,10 +91,25 @@ class Menu():
             # outside of user's text input
             input_rect.w = max(((SCREEN_WIDTH / 5) * 3) -16, text_surface.get_width() + 10)
 
+            if failed:
+                failed_font = pygame.font.Font(None, 72)
+                text = failed_font.render('INVALID URL!', True, (255, 0, 0))
+                text_rect = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, 32)
+                self.screen.blit(text, (text_rect.x-175, text_rect.y-55))
+                pygame.display.flip()
+                time.sleep(3)
+                failed = False
+
             if start_button.draw():
                 # does youtube stuff here
                 print("Start")
                 try:
+                    loading_font = pygame.font.Font(None, 72)
+                    text = loading_font.render('LOADING...', True, (0, 255, 0))
+                    text_rect = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, 32)
+                    self.screen.blit(text, (text_rect.x-120, text_rect.y-55))
+                    pygame.display.flip()
+
                     self.downloadvideo.deleteFiles() # Deletes all previous files to avoid problems :>
                     self.downloadvideo.download(self.user_text) # Downloads the video
                     self.downloadvideo.renameFile() # Renames the .wav file
@@ -97,7 +117,8 @@ class Menu():
                     csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
                     # Show on screen in Green text DOWNLOADING VIDEO...
                     return str(wav_file), str(csv_file)
-                except: print("INVALID VIDEO URL") # Print in red text ERROR: INVALID VIDEO URL
+                except:
+                    failed = True
 
             if exit_button.draw():
                 print("Exit")

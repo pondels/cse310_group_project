@@ -97,6 +97,7 @@ class DrawActorsAction():
             # root = [] 
 
             for note in self.notes:
+                self.clock.tick(100)
                 line_length = abs(500 - note[3])
 
                 mid_X = self.WIDTH/2

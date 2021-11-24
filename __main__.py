@@ -15,7 +15,6 @@ def main():
     display = DrawActorsAction(wav_file)
     display.updateNotes(csv_file)
     display.updateScreen()
-    
 
 if __name__ == "__main__":
     main()

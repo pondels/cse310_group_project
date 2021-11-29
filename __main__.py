@@ -1,10 +1,10 @@
 import pygame
+pygame.init()
 
 from src.menu import Menu
 from src.drawactorsaction import DrawActorsAction
 from src.constants import *
 
-pygame.init()
 
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))

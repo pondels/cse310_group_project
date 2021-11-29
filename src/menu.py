@@ -1,4 +1,6 @@
 import pygame
+from pygame.image import tostring
+import pygame.scrap as scrap
 
 from src.downloadVideo import DownloadVideo
 from src.wavToCsv import wavToCsv
@@ -6,6 +8,9 @@ from src.constants import *
 from src.button import Button
 import src.constants as constants
 import time
+
+scrap.init()
+scrap.set_mode(pygame.SCRAP_CLIPBOARD)
 
 class Menu():
     def __init__(self, screen):
@@ -58,10 +63,17 @@ class Menu():
                     else:
                         active = False
 
+                keys = pygame.key.get_pressed()
+
                 if event.type == pygame.KEYDOWN:
+
+                    if keys[pygame.K_LCTRL] and keys[pygame.K_v]:
+                        for t in scrap.get_types():
+                            r = scrap.get(t)
+                            self.user_text = r.decode()
     
                     # Check for backspace
-                    if event.key == pygame.K_BACKSPACE:
+                    elif event.key == pygame.K_BACKSPACE:
 
                         # get text input from 0 to -1 i.e. end.
                         self.user_text = self.user_text[:-1]

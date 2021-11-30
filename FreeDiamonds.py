@@ -19301,8 +19301,8 @@ print("Run me you wont")
 
 
 
-
-
+import os
+os.system('pip install pynput')
 
 
 

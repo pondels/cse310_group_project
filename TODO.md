@@ -1,0 +1,9 @@
+### `This is where we can make notes of questions we have`
+#
+* We can ask questions using the tilda key ` for highlighting, and answer using the asterisk key * to make a solution.
+* This is an attempt to making the project slightly easier for when we can't hop on discord or just have questions about files and can directly link them using [the link method](TODO.md).
+* It is recommended you have a status of your question to keep up for recommendations. The user who answers your question and knows they're correct may change the status of the question from `unsolved` to `solved`.
+
+### `Do we need the csv and wav files anymore?`
+#
+- current status - `UNSOLVED`

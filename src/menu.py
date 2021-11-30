@@ -116,6 +116,11 @@ class Menu():
                 # does youtube stuff here
                 print("Start")
                 try:
+                    print(self.user_text)
+                    if "https://" not in self.user_text:
+                        self.user_text = "https://" + self.user_text
+                    
+                    # Creates a loading screen
                     loading_font = pygame.font.Font(None, 72)
                     text = loading_font.render('LOADING...', True, (0, 255, 0))
                     text_rect = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, 32)
@@ -128,7 +133,7 @@ class Menu():
                     wav_file = self.downloadvideo.file # Get's the wav file path
                     csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
                     # Show on screen in Green text DOWNLOADING VIDEO...
-                    return str(wav_file), str(csv_file)
+                    return wav_file, csv_file, self.user_text
                 except:
                     failed = True
 

@@ -33,5 +33,10 @@ class DownloadVideo():
             os.remove(filename)
         for filename in glob.glob('*.csv'):
             os.remove(filename)
-
-# Link for testing https://youtu.be/bXkRj-UcWVM
+        # If the audio file is for some reason anything else
+        for filename in glob.glob('*.m4a'):
+            os.remove(filename)
+        for filename in glob.glob('*.mp4'):
+            os.remove(filename)
+        for filename in glob.glob('*.mp3'):
+            os.remove(filename)

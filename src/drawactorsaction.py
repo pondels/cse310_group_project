@@ -1,7 +1,4 @@
-import random
 import pygame
-import asyncio
-import time
 import math
 import librosa
 import numpy as np

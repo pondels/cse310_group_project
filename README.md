@@ -28,3 +28,4 @@ Samuel Witt
 - Aubio
 - Pygame
 - bs4 (beautifulsoup)
+- FFMPEG

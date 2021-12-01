@@ -18,4 +18,4 @@
 
 ### `Do we need the csv and wav files anymore?`
 #
-- current status - `UNSOLVED`
+- current status - `SOLVED`

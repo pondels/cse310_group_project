@@ -90,11 +90,9 @@ class DrawActorsAction():
 
             angle = 0
             
-            mixer.music.play()
-            # root = [] 
-
+            root = [] 
+            count = 0
             for note in self.notes:
-                self.clock.tick(100)
                 line_length = abs(500 - note[3])
 
                 mid_X = self.WIDTH/2
@@ -104,29 +102,32 @@ class DrawActorsAction():
                 Y_additive = math.cos(math.radians(angle)) * line_length
                 X_additive = math.sin(math.radians(angle)) * line_length
                 endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
-                
-                pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
-                pygame.display.flip()
-                # backwards.append([note[1], startpoint, endpoint])
 
                 # checks and updates the angle
                 if angle > 0:
                     angle -= 1
                 else:
                     angle = 359
-                # root.append([note[1], True, (startpoint, endpoint), 3])
-            
-            # for i in root:
-            #     self.clock.tick(100)
-            #     pygame.draw.lines(self.screen, i[0], i[1], i[2], i[3])
-            #     pygame.display.flip()
-            # print(backwards) 
+                root.append([note[1], True, (startpoint, endpoint), 3])
+                
+            test = []
 
-            # for i in range(len(backwards)):
-            #     zi = len(backwards)-i
-            #     print(backwards[zi])
-            #     pygame.draw.lines(self.screen, backwards[zi][0], True, (backwards[zi][1], backwards[zi][2]), 3)
-            #     pygame.display.flip()
+            trail = 35
+
+            for i in range(trail):
+                test.append(root[i])
+            background_color = (0, 0, 0)
+            mixer.music.play()
+            for i in range(len(root)):
+                self.clock.tick(100)
+                if i >= trail:
+                    test.pop(0)
+                    test.append(root[i])
+                self.screen.fill(background_color)
+                for i in range(trail):
+                    pygame.draw.lines(self.screen, test[i][0], test[i][1], test[i][2], test[i][3])
+                
+                pygame.display.flip()
 
             self.running = False
 

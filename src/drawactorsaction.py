@@ -4,6 +4,7 @@ import librosa
 import numpy as np
 from src.color import Color
 from src.constants import *
+from pygame import mixer
 
 """
 TODO
@@ -11,10 +12,7 @@ Class: DrawActorsAction
 Description: What does it do? What does it output? What does it use?
 """
 
-from pygame import mixer
-
 mixer.init()
-
 class DrawActorsAction():
 
     def __init__(self, filename):
@@ -80,79 +78,67 @@ class DrawActorsAction():
         pass
 
     def updateScreen(self):
+            
+        background_color = (0, 0, 0)
+        self.screen.fill(background_color)
+
+        angle = 0
+        
+        root = [] 
+        count = 0
+        for note in self.notes:
+            line_length = abs(500 - note[3])
+
+            mid_X = self.WIDTH/2
+            mid_Y = self.HEIGHT/2
+
+            startpoint = [int(mid_X), int(mid_Y)]
+            Y_additive = math.cos(math.radians(angle)) * line_length
+            X_additive = math.sin(math.radians(angle)) * line_length
+            endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
+
+            # checks and updates the angle
+            if angle > 0:
+                angle -= 1
+            else:
+                angle = 359
+            root.append([note[1], (startpoint, endpoint)])
+                
+        trail_list = []
+        trail = 360
+
+        for i in range(trail):
+            trail_list.append(root[i])
+        count = 0
+
+        first = True
+
         while self.running:
+
+                
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-            
-            background_color = (0, 0, 0)
-            self.screen.fill(background_color)
 
-            angle = 0
-            
-            root = [] 
-            count = 0
-            for note in self.notes:
-                line_length = abs(500 - note[3])
-
-                mid_X = self.WIDTH/2
-                mid_Y = self.HEIGHT/2
-
-                startpoint = [int(mid_X), int(mid_Y)]
-                Y_additive = math.cos(math.radians(angle)) * line_length
-                X_additive = math.sin(math.radians(angle)) * line_length
-                endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
-
-                # checks and updates the angle
-                if angle > 0:
-                    angle -= 1
-                else:
-                    angle = 359
-                root.append([note[1], True, (startpoint, endpoint), 3])
-                
-            test = []
-
-            trail = 35
-
-            for i in range(trail):
-                test.append(root[i])
-            background_color = (0, 0, 0)
-            mixer.music.play()
-            for i in range(len(root)):
-                self.clock.tick(100)
-                if i >= trail:
-                    test.pop(0)
-                    test.append(root[i])
+            self.clock.tick(100)
+            if count >= trail:
+                trail_list.pop(0)
+                trail_list.append(root[count])
+            if count < trail:
+                pygame.draw.lines(self.screen, trail_list[count][0], True, trail_list[count][1], 3)
+            else:
                 self.screen.fill(background_color)
                 for i in range(trail):
-                    pygame.draw.lines(self.screen, test[i][0], test[i][1], test[i][2], test[i][3])
-                
-                pygame.display.flip()
+                    pygame.draw.lines(self.screen, trail_list[i][0], True, trail_list[i][1], 3)
 
-            self.running = False
+            
+            if first:
+                mixer.music.play()
+                first = False
 
-class AudioAnalyzer:
+            pygame.display.flip()
+            
+            count += 1
+            if count == len(root):
+                self.running = False
 
-    def __init__(self):
-
-        self.frequencies_index_ratio = 0  # array for frequencies
-        self.time_index_ratio = 0  # array of time periods
-        self.spectrogram = None  # a matrix that contains decibel values according to frequency and time indexes
-
-    def load(self, filename):
-
-        time_series, sample_rate = librosa.load(filename)  # getting information from the file
-
-        # getting a matrix which contains amplitude values according to frequency and time indexes
-        stft = np.abs(librosa.stft(time_series, hop_length = 512, n_fft = 2048 * 4))
-
-        self.spectrogram = librosa.amplitude_to_db(stft, ref = np.max)  # converting the matrix to decibel matrix
-
-        frequencies = librosa.core.fft_frequencies(n_fft = 2048 * 4)  # getting an array of frequencies
-
-        # getting an array of time periodic
-        times = librosa.core.frames_to_time(np.arange(self.spectrogram.shape[1]), sr=sample_rate, hop_length = 512, n_fft = 2048 * 4)
-
-        self.time_index_ratio = len(times)/times[len(times) - 1]
-
-        self.frequencies_index_ratio = len(frequencies) / frequencies[len(frequencies) - 1]

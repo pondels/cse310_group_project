@@ -19,3 +19,6 @@
 ### `Do we need the csv and wav files anymore?`
 #
 - current status - `SOLVED`
+
+### `Make the Trail Slowly get smaller as the line depreciates to the end. (Like when a base hits high and then slowly drops frequency)` 
+#

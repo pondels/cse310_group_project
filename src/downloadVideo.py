@@ -16,7 +16,7 @@ class DownloadVideo():
 
     def download(self, url):
         self.url = url # input("Please enter a valid Youtube URL: ")
-        os.system(f"youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 {self.url}")
+        os.system(f'youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 --external-downloader aria2c {self.url}')
 
     def renameFile(self):
         data = self.videoName.scrape_info(self.url)

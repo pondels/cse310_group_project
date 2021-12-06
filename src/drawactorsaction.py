@@ -1,6 +1,7 @@
 import pygame
 import math
 import librosa
+import time
 import numpy as np
 from src.color import Color
 from src.constants import *
@@ -105,7 +106,7 @@ class DrawActorsAction():
             root.append([note[1], (startpoint, endpoint)])
                 
         trail_list = []
-        trail = 360
+        trail = 90
 
         for i in range(trail):
             trail_list.append(root[i])
@@ -121,6 +122,7 @@ class DrawActorsAction():
                     self.running = False
 
             self.clock.tick(100)
+
             if count >= trail:
                 trail_list.pop(0)
                 trail_list.append(root[count])
@@ -131,7 +133,6 @@ class DrawActorsAction():
                 for i in range(trail):
                     pygame.draw.lines(self.screen, trail_list[i][0], True, trail_list[i][1], 3)
 
-            
             if first:
                 mixer.music.play()
                 first = False

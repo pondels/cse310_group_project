@@ -7,9 +7,13 @@ SCREEN_WIDTH  = 1280
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Music Visualizer')
 
-#load button images
-start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
-exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+#load button images (Light Mode)
+# start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
+# exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+
+#load button images (Dark Mode)
+start_img = pygame.image.load('src/img/start_btn_dark.png').convert_alpha()
+exit_img = pygame.image.load('src/img/exit_btn_dark.png').convert_alpha()
 
 # button class
 class Button():
@@ -50,6 +54,10 @@ exit_button = Button(700, 300, exit_img, 1)
 run = True
 while run:
 
+    # Light Mode
+    # screen.fill((202, 228, 241))
+
+    # Dark Mode
     screen.fill((202, 228, 241))
 
     if start_button.draw():

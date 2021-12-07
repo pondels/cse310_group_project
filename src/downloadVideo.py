@@ -2,6 +2,7 @@
 # https://www.geeksforgeeks.org/python-playing-audio-file-in-pygame/
 
 import os
+import glob
 
 from src.youtubeName import videoName
 
@@ -13,18 +14,29 @@ class DownloadVideo():
         self.file = None
         self.videoName = videoName()
 
-    def download(self):
-        self.url = input("Please enter a valid Youtube URL: ")
-        os.system(f"youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 {self.url}")
+    def download(self, url):
+        self.url = url # input("Please enter a valid Youtube URL: ")
+        os.system(f'youtube-dl -f bestaudio --extract-audio --audio-format wav --audio-quality 0 --external-downloader aria2c {self.url}')
 
     def renameFile(self):
         data = self.videoName.scrape_info(self.url)
         data = self.videoName.removeCrap(data)
-        print(data)
+        # Finds all wav files and renames them
+        for filename in glob.glob('*.wav'):
+            print(filename)
+            os.rename(filename, data + ".wav")
+            self.file = data + ".wav"
 
-    def retrieve_audio(self):
-        pass
-
-    def retrieve_csv(self):
-        print("You get the csv file path")
-# Link for testing https://youtu.be/bXkRj-UcWVM
+    def deleteFiles(self):
+        # DELETES THE CSV AND AUDIO FILE
+        for filename in glob.glob('*.wav'):
+            os.remove(filename)
+        for filename in glob.glob('*.csv'):
+            os.remove(filename)
+        # If the audio file is for some reason anything else
+        for filename in glob.glob('*.m4a'):
+            os.remove(filename)
+        for filename in glob.glob('*.mp4'):
+            os.remove(filename)
+        for filename in glob.glob('*.mp3'):
+            os.remove(filename)

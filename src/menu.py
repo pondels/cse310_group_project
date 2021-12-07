@@ -1,77 +1,153 @@
 import pygame
+from pygame.image import tostring
+import pygame.scrap as scrap
 
-# Create display window
-SCREEN_HEIGHT = 720
-SCREEN_WIDTH  = 1280
+from src.downloadVideo import DownloadVideo
+from src.wavToCsv import wavToCsv
+from src.constants import *
+from src.button import Button
+import src.constants as constants
+import time
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Music Visualizer')
+scrap.init()
+scrap.set_mode(pygame.SCRAP_CLIPBOARD)
 
-#load button images (Light Mode)
-# start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
-# exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+class Menu():
+    def __init__(self, screen):
+        self.screen = screen
+        pygame.display.set_caption('Music Visualizer')
+        #load button images (light)
+        # self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
+        # self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+        #load button images (dark)
+        self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
+        self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
+        # basic font for user typed
+        self.base_font = pygame.font.Font(None, 32)
+        self.user_text = ''
+        self.downloadvideo = DownloadVideo()
+        self.wavtocsv = wavToCsv()
 
-#load button images (Dark Mode)
-start_img = pygame.image.load('src/img/start_btn_dark.png').convert_alpha()
-exit_img = pygame.image.load('src/img/exit_btn_dark.png').convert_alpha()
+    def menu(self):
+        # create button instances
+        start_button = Button(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 1.7, self.start_img, 1, self.screen)
+        exit_button = Button(((SCREEN_WIDTH / 5) * 3), SCREEN_HEIGHT / 1.7, self.exit_img, 1, self.screen)
 
-# button class
-class Button():
-    def __init__(self, x, y, image, scale):
-        width = image.get_width()
-        height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-        self.clicked = False
-    
-    def draw(self):
-        action = False
-        #get mouse position
-        pos = pygame.mouse.get_pos()
+        # create rectangle
+        input_rect = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2, (SCREEN_WIDTH / 5) * 3, 32)
+            
+        # color_active stores color(lightskyblue3) which
+        # gets active when input box is clicked by user
+        color_active = pygame.Color('lightskyblue3')
         
+        # color_passive store color(chartreuse4) which is
+        # color of input box.
+        color_passive = pygame.Color('chartreuse4')
+        color = color_passive
 
-        #check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == True and self.clicked == False:
-                self.clicked = True
-                action = True
+        active = False
 
-        if pygame.mouse.get_pressed()[0] == False:
-            self.clicked = False
+        #game loop
+        run = True
 
-        #draw button on screen
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        # Invalid URL Input
+        failed = False
 
-        return action
+        while run:
+            #event handler
+            for event in pygame.event.get():
+                #quit game
+                if event.type == pygame.QUIT:
+                    run = False
 
-# create button instances
-start_button = Button(250, 300, start_img, 1)
-exit_button = Button(700, 300, exit_img, 1)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if input_rect.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
 
+                keys = pygame.key.get_pressed()
 
-#game loop
-run = True
-while run:
+                if event.type == pygame.KEYDOWN:
 
-    # Light Mode
-    # screen.fill((202, 228, 241))
+    
+                    if keys[pygame.K_LCTRL] and keys[pygame.K_v]:
+                        for t in scrap.get_types():
+                            r = scrap.get(t)
+                            self.user_text = r.decode()
+    
+                    # Check for backspace
+                    elif event.key == pygame.K_BACKSPACE:
 
-    # Dark Mode
-    screen.fill((202, 228, 241))
+                        # get text input from 0 to -1 i.e. end.
+                        self.user_text = self.user_text[:-1]
 
-    if start_button.draw():
-        print("Start")
-    if exit_button.draw():
-        print("Exit")
-        run = False
+                    # Unicode standard is used for string
+                    # formation
+                    else:
+                        self.user_text += event.unicode
+            # Light Mode
+            # self.screen.fill((202, 228, 241))
 
-    #event handler
-    for event in pygame.event.get():
-        #quit game
-        if event.type == pygame.QUIT:
-            run = False
+            # Dark Mode
+            self.screen.fill((35, 10, 20))
 
-        pygame.display.update()
+            if active:
+                color = color_active
+            else:
+                color = color_passive
 
-pygame.quit()
+            # draw rectangle and argument passed which should
+            # be on screen
+            pygame.draw.rect(self.screen, color, input_rect)
+        
+            text_surface = self.base_font.render(self.user_text, True, (255, 255, 255))
+            
+            # render at position stated in arguments
+            self.screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
+            
+            # set width of textfield so that text cannot get
+            # outside of user's text input
+            input_rect.w = max(((SCREEN_WIDTH / 5) * 3) -16, text_surface.get_width() + 10)
+
+            if failed:
+                failed_font = pygame.font.Font(None, 72)
+                text = failed_font.render('INVALID URL!', True, (255, 0, 0))
+                text_rect = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, 32)
+                self.screen.blit(text, (text_rect.x-175, text_rect.y-55))
+                pygame.display.flip()
+                time.sleep(3)
+                failed = False
+
+            if start_button.draw():
+                # does youtube stuff here
+                print("Start")
+                try:
+                    print(self.user_text)
+                    if "https://" not in self.user_text:
+                        self.user_text = "https://" + self.user_text
+                    
+                    # Creates a loading screen
+                    loading_font = pygame.font.Font(None, 72)
+                    text = loading_font.render('LOADING...', True, (0, 255, 0))
+                    text_rect = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, 32)
+                    self.screen.blit(text, (text_rect.x-120, text_rect.y-55))
+                    pygame.display.flip()
+
+                    self.downloadvideo.deleteFiles() # Deletes all previous files to avoid problems :>
+                    self.downloadvideo.download(self.user_text) # Downloads the video
+                    self.downloadvideo.renameFile() # Renames the .wav file
+                    wav_file = self.downloadvideo.file # Get's the wav file path
+                    csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
+                    # Show on screen in Green text DOWNLOADING VIDEO...
+                    return wav_file, csv_file, self.user_text
+                except:
+                    failed = True
+
+            if exit_button.draw():
+                print("Exit")
+                run = False
+
+            pygame.display.flip()
+            
+        pygame.quit()

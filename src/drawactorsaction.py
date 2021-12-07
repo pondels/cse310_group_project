@@ -1,11 +1,11 @@
-import random
 import pygame
-import asyncio
-import time
 import math
-from src.mathEQ import Math
+import librosa
+import time
+import numpy as np
 from src.color import Color
 from src.constants import *
+from pygame import mixer
 
 """
 TODO
@@ -13,17 +13,13 @@ Class: DrawActorsAction
 Description: What does it do? What does it output? What does it use?
 """
 
-from pygame import mixer
-
 mixer.init()
-
 class DrawActorsAction():
 
     def __init__(self, filename):
         self.WIDTH = 1280
         self.HEIGHT = 720
         self.running = True
-        self.math = Math()
         self.color = Color()
         self.notes = []
 
@@ -49,8 +45,7 @@ class DrawActorsAction():
             dictionary.
         '''
         # Opens the CSV File to Read
-        print(PATH)
-        with open(f"{PATH}\{csvFile}", "r") as file:
+        with open(csvFile, "r") as file:
             # Skips the first line in the file
             next(file)
 
@@ -60,13 +55,12 @@ class DrawActorsAction():
                 # using the Time, Frequency, and Confidence
                 new_i = i.strip("\n")
                 new_i = new_i.split(',')
-                if new_i != [''] and new_i[1] != '0.0':
+                if new_i != [''] and new_i[1] != '0.000':
                     time = float(new_i[0])
                     frequency = float(new_i[1])
                     confidence = float(new_i[2])
                     # Grabs the note and the note color from the color class
                     # using the freq2color to get an array of the note and its color
-                    
                     colorArr = self.color.freq2color(frequency)
                     noteName = colorArr[0]
                     noteColor = colorArr[1]
@@ -85,58 +79,67 @@ class DrawActorsAction():
         pass
 
     def updateScreen(self):
+            
+        background_color = (0, 0, 0)
+        self.screen.fill(background_color)
+
+        angle = 0
+        
+        root = [] 
+        count = 0
+        for note in self.notes:
+            line_length = abs(500 - note[3])
+
+            mid_X = self.WIDTH/2
+            mid_Y = self.HEIGHT/2
+
+            startpoint = [int(mid_X), int(mid_Y)]
+            Y_additive = math.cos(math.radians(angle)) * line_length
+            X_additive = math.sin(math.radians(angle)) * line_length
+            endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
+
+            # checks and updates the angle
+            if angle > 0:
+                angle -= 1
+            else:
+                angle = 359
+            root.append([note[1], (startpoint, endpoint)])
+                
+        trail_list = []
+        trail = 90
+
+        for i in range(trail):
+            trail_list.append(root[i])
+        count = 0
+
+        first = True
+
         while self.running:
+
+                
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+
+            self.clock.tick(100)
+
+            if count >= trail:
+                trail_list.pop(0)
+                trail_list.append(root[count])
+            if count < trail:
+                pygame.draw.lines(self.screen, trail_list[count][0], True, trail_list[count][1], 3)
+            else:
+                self.screen.fill(background_color)
+                for i in range(trail):
+                    pygame.draw.lines(self.screen, trail_list[i][0], True, trail_list[i][1], 3)
+
+            if first:
+                mixer.music.play()
+                first = False
+
+            pygame.display.flip()
             
-            background_color = (0, 0, 0)
-            self.screen.fill(background_color)
+            count += 1
+            if count == len(root):
+                self.running = False
 
-            line_length = 40
-            angle = 0
-            
-            mixer.music.play()
-            backwards = []
-            
-            
-
-            for note in self.notes:
-                print(note)
-                self.clock.tick(100)
-
-                mid_X = self.WIDTH/2
-                mid_Y = self.HEIGHT/2
-
-                startpoint = [int(mid_X), int(mid_Y)]
-                Y_additive = math.cos(math.radians(angle)) * line_length
-                X_additive = math.sin(math.radians(angle)) * line_length
-
-                endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
-                
-                
-                pygame.draw.lines(self.screen, note[1], True, (startpoint, endpoint), 3)
-                pygame.display.flip()
-                # backwards.append([note[1], startpoint, endpoint])
-                
-                
-
-
-                # checks and updates the angle
-                if angle > 0:
-                    angle -= 1
-                else:
-                    angle = 359
-
-                line_length = (note[3])
-                #  + 220) / note[2]
-                # line_length = line_length + .5
-            # print(backwards) 
-
-            # for i in range(len(backwards)):
-            #     zi = len(backwards)-i
-            #     print(backwards[zi])
-            #     pygame.draw.lines(self.screen, backwards[zi][0], True, (backwards[zi][1], backwards[zi][2]), 3)
-            #     pygame.display.flip()
-
-            self.running = False

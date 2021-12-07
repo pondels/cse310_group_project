@@ -1,37 +1,27 @@
+import pygame
+pygame.init()
+# import webbrowser
+from src.menu import Menu
 from src.drawactorsaction import DrawActorsAction
-from src.downloadVideo import DownloadVideo
+from src.constants import *
 
+# Link for testing https://youtu.be/-SjPVVeNdKY
 def main():
-    
-    '''
-    PLEASE USE https://youtu.be/bXkRj-UcWVM AS A TEST FILE.
-    ITS JUST A SHORT AUDIO FILE THAT CAN BE USED WHILE TESTING
-    MAIN.
-    '''
-
-
-    # download_video = DownloadVideo()
-    # # Downloads a File Using a Valid Youtube URL
-    # download_video.download()
-    # # Finds the .wav and .csv file that was just downloaded
-    # # And Returns the path for both files.
-    # audioFile = download_video.retrieve_audio()
-    # csvFile = download_video.retrieve_csv()
-    # download_video.renameFile()
-
-    # Currently Temporary inputs for audio and csv
-    # While I work on getting pathing figured out
-    audioFile = 'src\wav\Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav'
-    # use csv as the starting file and NOT src\
-    csvFile = 'csv\Ladies & Gentlemen.... We Got Him _ ORIGINAL MEME HD--15VC4Yxzys.wav.csv'
-    # Display takes in the audioFile
-    display = DrawActorsAction(audioFile)
-    # display._random_coordinate()
-
-    # UpdateNotes takes in the csvFile
-    display.updateNotes(csvFile)
-    # Starts drawing the cube with the csv file
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    menu = Menu(screen) # Comment out if testing
+    # URL MIGHT BE USED FOR SHOWING A VIDEO, USELESS FOR NOW
+    wav_file, csv_file, url = menu.menu() # Comment out if testing
+    # wav_file = 'TuvanThroatSinging.wav' # Uncomment if testing, put path to wav here
+    # csv_file = 'TuvanThroatSinging.f0.csv' # Uncomment if testing, put path to csv here
+    display = DrawActorsAction(wav_file)
+    display.updateNotes(csv_file)
     display.updateScreen()
+
+    # 1) https://youtu.be/qx8hrhBZJ98  3:52 Ratio: +6
+    # 2) https://youtu.be/pTA0DSfrGZ0  4:15 Ratio: +
+    # 3) https://youtu.be/3Z1h2VE0hzs  1:47 Ratio: +2.8
+    # 4) https://youtu.be/V0e7rFdVYxE 10:41 Ratio: +
+    # 5) https://youtu.be/Wl9oUBgFk6Y  0:43 Ratio: +2
 
 if __name__ == "__main__":
     main()

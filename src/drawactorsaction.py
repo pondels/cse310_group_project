@@ -119,7 +119,6 @@ class DrawActorsAction():
         length = librosa.get_duration(filename=filename)
 
         ts_interval = length / len(self.notes) # Time Interval
-        print(len(self.notes), length, ts_interval)
 
         while self.running:
                 

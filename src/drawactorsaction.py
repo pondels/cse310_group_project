@@ -58,6 +58,11 @@ class DrawActorsAction():
             # Appends the note, the color, the time, the frequency, and the confidence to the notes array
             self.notes.append([noteName, noteColor, pitch])
 
+    def endpoint(self, angle, line_length):
+        Y_additive = math.cos(math.radians(angle)) * line_length
+        X_additive = math.sin(math.radians(angle)) * line_length
+        return [int((self.WIDTH/2 + X_additive)), int((self.HEIGHT/2 + Y_additive))]
+
     def updateScreen(self, filename):
             
         background_color = (0, 0, 0)
@@ -68,15 +73,10 @@ class DrawActorsAction():
         root = [] 
         count = 0
         for note in self.notes:
-            line_length = abs(500 - note[2])
+            line_length = abs(500 - (note[2] * 3))
 
-            mid_X = self.WIDTH/2
-            mid_Y = self.HEIGHT/2
-
-            startpoint = [int(mid_X), int(mid_Y)]
-            Y_additive = math.cos(math.radians(angle)) * line_length
-            X_additive = math.sin(math.radians(angle)) * line_length
-            endpoint = [int((mid_X + X_additive)), int((mid_Y + Y_additive))]
+            startpoint = [int(self.WIDTH/2), int(self.HEIGHT/2)]
+            endpoint = self.endpoint(angle, line_length)
 
             # checks and updates the angle
             if angle > 0:
@@ -101,9 +101,6 @@ class DrawActorsAction():
 
         ts_interval = length / len(self.notes) # Time Interval
 
-        for i in range(15):
-            print(self.notes[i][1])
-
         while self.running:
                 
             for event in pygame.event.get():
@@ -126,22 +123,27 @@ class DrawActorsAction():
                         endpoint = trail_list[i][3][1]
                         angle = trail_list[i][2]
 
+                        Y = math.cos(math.radians(angle))
+                        X = math.sin(math.radians(angle))
+
+                        endpoint = [int(endpoint[0]- (X*2)), int(endpoint[1]-(Y*2))]
+
                         # Quadrants with mATH to make lines "fade"
-                        if 0 <= angle < 90:
-                            end1 = endpoint[0] + (endpoint[0] / divisor)
-                            end2 = endpoint[1] + (endpoint[1] / divisor)
-                        elif 90 <= angle < 180:
-                            end1 = endpoint[0] + (endpoint[0] / divisor)
-                            end2 = endpoint[1] - (endpoint[1] / divisor)
-                        elif 180 <= angle < 270:
-                            end1 = endpoint[0] - (endpoint[0] / divisor)
-                            end2 = endpoint[1] - (endpoint[1] / divisor)
-                        else:
-                            end1 = endpoint[0] - (endpoint[0] / divisor)
-                            end2 = endpoint[1] + (endpoint[1] / divisor)
+                        # if 0 <= angle < 90:
+                        #     end1 = endpoint[0] + (endpoint[0] / divisor)
+                        #     end2 = endpoint[1] + (endpoint[1] / divisor)
+                        # elif 90 <= angle < 180:
+                        #     end1 = endpoint[0] + (endpoint[0] / divisor)
+                        #     end2 = endpoint[1] - (endpoint[1] / divisor)
+                        # elif 180 <= angle < 270:
+                        #     end1 = endpoint[0] - (endpoint[0] / divisor)
+                        #     end2 = endpoint[1] - (endpoint[1] / divisor)
+                        # else:
+                        #     end1 = endpoint[0] - (endpoint[0] / divisor)
+                        #     end2 = endpoint[1] + (endpoint[1] / divisor)
 
                         # Updates the list with the new information
-                        trail_list[i] = [color, [startpoint, [end1, end2]], angle, [startpoint, endpoint]]
+                        trail_list[i] = [color, [startpoint, endpoint], angle, [startpoint, endpoint]]
                         divisor += 5 # Increases the devisor
 
                 if count < trail:

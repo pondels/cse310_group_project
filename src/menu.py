@@ -8,6 +8,7 @@ from src.constants import *
 from src.button import Button
 import src.constants as constants
 import time
+import aubio
 
 scrap.init()
 scrap.set_mode(pygame.SCRAP_CLIPBOARD)
@@ -131,9 +132,10 @@ class Menu():
                     self.downloadvideo.download(self.user_text) # Downloads the video
                     self.downloadvideo.renameFile() # Renames the .wav file
                     wav_file = self.downloadvideo.file # Get's the wav file path
-                    csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
+                    s = aubio.source(wav_file)
+                    samplerate = s.samplerate
                     # Show on screen in Green text DOWNLOADING VIDEO...
-                    return wav_file, csv_file, self.user_text
+                    return wav_file, s, samplerate
                 except:
                     failed = True
 

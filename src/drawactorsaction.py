@@ -6,6 +6,8 @@ import numpy as np
 from src.color import Color
 from src.constants import *
 from pygame import mixer
+import librosa.display
+import aubio
 
 """
 TODO
@@ -39,44 +41,40 @@ class DrawActorsAction():
     Class: Color
     Description: What does it do? What does it output? What does it use?
     """
-    def updateNotes(self, csvFile):
+    def updateNotes(self, s, samplerate):
         '''
             A function to add notes to the self.notes
             dictionary.
         '''
-        # Opens the CSV File to Read
-        with open(csvFile, "r") as file:
-            # Skips the first line in the file
-            next(file)
+        win_s = 4096
+        hop_s = 512 
 
-            # Iterates through each line in the CSV File
-            for i in file:
-                # Splits each line up into an array
-                # using the Time, Frequency, and Confidence
-                new_i = i.strip("\n")
-                new_i = new_i.split(',')
-                if new_i != [''] and new_i[1] != '0.000':
-                    time = float(new_i[0])
-                    frequency = float(new_i[1])
-                    confidence = float(new_i[2])
-                    # Grabs the note and the note color from the color class
-                    # using the freq2color to get an array of the note and its color
-                    colorArr = self.color.freq2color(frequency)
-                    noteName = colorArr[0]
-                    noteColor = colorArr[1]
-                    # Appends the note, the color, the time, the frequency, and the confidence to the notes array
-                    self.notes.append([noteName, noteColor, time, frequency, confidence])
+        tolerance = 0.8
 
+        pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
+        pitch_o.set_unit("midi")
+        pitch_o.set_tolerance(tolerance)
 
-    def updateSpiral(self, time, start, end, note):
-        '''
-            Moves the line over a period of time from
-            point a (start) to point b (end)
+        pitches = []
 
-            This "time" variable is dependant on the 
-        '''
-        # Is this ^ The description of the function?
-        pass
+        while True:
+            samples, read = s()
+            pitch = pitch_o(samples)[0]
+            pitches += [pitch]
+            if read < hop_s:
+                break
+
+        for pitch in pitches:
+            if pitch == 0:
+                pitch = 20    
+            # Grabs the note and the note color from the color class
+            # using the freq2color to get an array of the note and its color
+            colorArr = self.color.freq2color(pitch)
+            noteName = colorArr[0]
+            noteColor = colorArr[1]
+            # Appends the note, the color, the time, the frequency, and the confidence to the notes array
+            self.notes.append([noteName, noteColor, pitch])
+
 
     def updateScreen(self):
             
@@ -88,7 +86,7 @@ class DrawActorsAction():
         root = [] 
         count = 0
         for note in self.notes:
-            line_length = abs(500 - note[3])
+            line_length = abs(500 - note[2])
 
             mid_X = self.WIDTH/2
             mid_Y = self.HEIGHT/2
@@ -103,10 +101,10 @@ class DrawActorsAction():
                 angle -= 1
             else:
                 angle = 359
-            root.append([note[1], (startpoint, endpoint)])
+            root.append([note[1], (startpoint, endpoint), angle, (startpoint, endpoint)])
                 
         trail_list = []
-        trail = 90
+        trail = 65
 
         for i in range(trail):
             trail_list.append(root[i])
@@ -115,17 +113,44 @@ class DrawActorsAction():
         first = True
 
         while self.running:
-
                 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
 
-            self.clock.tick(100)
+            self.clock.tick(91)
 
-            if count >= trail:
+            if count >= trail: # Adds to the back and pops the front like a queue
                 trail_list.pop(0)
                 trail_list.append(root[count])
+
+            # if count % 20 == True:
+            if len(trail_list) == trail: # All items in the trail_list are here
+                divisor = 5 # Base divisor
+                for i in range(20):
+                    color = trail_list[i][0]
+                    startpoint = trail_list[i][3][0]
+                    endpoint = trail_list[i][3][1]
+                    angle = trail_list[i][2]
+
+                    # Quadrants with mATH to make lines "fade"
+                    if 0 <= angle < 90:
+                        end1 = endpoint[0] + (endpoint[0] / divisor)
+                        end2 = endpoint[1] + (endpoint[1] / divisor)
+                    elif 90 <= angle < 180:
+                        end1 = endpoint[0] + (endpoint[0] / divisor)
+                        end2 = endpoint[1] - (endpoint[1] / divisor)
+                    elif 180 <= angle < 270:
+                        end1 = endpoint[0] - (endpoint[0] / divisor)
+                        end2 = endpoint[1] - (endpoint[1] / divisor)
+                    else:
+                        end1 = endpoint[0] - (endpoint[0] / divisor)
+                        end2 = endpoint[1] + (endpoint[1] / divisor)
+
+                    # Updates the list with the new information
+                    trail_list[i] = [color, [startpoint, [end1, end2]], angle, [startpoint, endpoint]]
+                    divisor += 5 # Increases the devisor
+
             if count < trail:
                 pygame.draw.lines(self.screen, trail_list[count][0], True, trail_list[count][1], 3)
             else:

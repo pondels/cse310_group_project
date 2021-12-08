@@ -8,6 +8,7 @@ from src.constants import *
 from src.button import Button
 import src.constants as constants
 import time
+import aubio
 
 scrap.init()
 scrap.set_mode(pygame.SCRAP_CLIPBOARD)
@@ -16,10 +17,7 @@ class Menu():
     def __init__(self, screen):
         self.screen = screen
         pygame.display.set_caption('Music Visualizer')
-        #load button images (light)
-        # self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
-        # self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
-        #load button images (dark)
+        #load button images
         self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
         self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
         # basic font for user typed
@@ -70,7 +68,6 @@ class Menu():
 
                 if event.type == pygame.KEYDOWN:
 
-    
                     if keys[pygame.K_LCTRL] and keys[pygame.K_v]:
                         for t in scrap.get_types():
                             r = scrap.get(t)
@@ -86,11 +83,8 @@ class Menu():
                     # formation
                     else:
                         self.user_text += event.unicode
-            # Light Mode
-            # self.screen.fill((202, 228, 241))
 
-            # Dark Mode
-            self.screen.fill((35, 10, 20))
+            self.screen.fill((202, 228, 241))
 
             if active:
                 color = color_active
@@ -138,9 +132,10 @@ class Menu():
                     self.downloadvideo.download(self.user_text) # Downloads the video
                     self.downloadvideo.renameFile() # Renames the .wav file
                     wav_file = self.downloadvideo.file # Get's the wav file path
-                    csv_file = self.wavtocsv.convertAudio() # Converts wav to csv and gets the csv path
+                    s = aubio.source(wav_file)
+                    samplerate = s.samplerate
                     # Show on screen in Green text DOWNLOADING VIDEO...
-                    return wav_file, csv_file, self.user_text
+                    return wav_file, s, samplerate
                 except:
                     failed = True
 

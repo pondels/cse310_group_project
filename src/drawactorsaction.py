@@ -116,8 +116,8 @@ class DrawActorsAction():
 
                 # if count % 20 == True:
                 if len(trail_list) == trail: # All items in the trail_list are here
-                    divisor = 5 # Base divisor
-                    for i in range(20):
+                    divisor = 2 # Base divisor
+                    for i in range(40):
                         color = trail_list[i][0]
                         startpoint = trail_list[i][3][0]
                         endpoint = trail_list[i][3][1]
@@ -126,25 +126,11 @@ class DrawActorsAction():
                         Y = math.cos(math.radians(angle))
                         X = math.sin(math.radians(angle))
 
-                        endpoint = [int(endpoint[0]- (X*2)), int(endpoint[1]-(Y*2))]
-
-                        # Quadrants with mATH to make lines "fade"
-                        # if 0 <= angle < 90:
-                        #     end1 = endpoint[0] + (endpoint[0] / divisor)
-                        #     end2 = endpoint[1] + (endpoint[1] / divisor)
-                        # elif 90 <= angle < 180:
-                        #     end1 = endpoint[0] + (endpoint[0] / divisor)
-                        #     end2 = endpoint[1] - (endpoint[1] / divisor)
-                        # elif 180 <= angle < 270:
-                        #     end1 = endpoint[0] - (endpoint[0] / divisor)
-                        #     end2 = endpoint[1] - (endpoint[1] / divisor)
-                        # else:
-                        #     end1 = endpoint[0] - (endpoint[0] / divisor)
-                        #     end2 = endpoint[1] + (endpoint[1] / divisor)
+                        endpoint = [int(endpoint[0]- (X*4)), int(endpoint[1]-(Y*4))]
 
                         # Updates the list with the new information
                         trail_list[i] = [color, [startpoint, endpoint], angle, [startpoint, endpoint]]
-                        divisor += 5 # Increases the devisor
+                        divisor += 2 # Increases the devisor
 
                 if count < trail:
                     pygame.draw.lines(self.screen, trail_list[count][0], True, trail_list[count][1], 3)

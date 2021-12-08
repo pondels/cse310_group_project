@@ -17,13 +17,9 @@ class Menu():
     def __init__(self, screen):
         self.screen = screen
         pygame.display.set_caption('Music Visualizer')
-        #load button images (Light Mode)
-        # start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
-        # exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
-
-        #load button images (Dark Mode)
-        start_img = pygame.image.load('src/img/start_btn_dark.png').convert_alpha()
-        exit_img = pygame.image.load('src/img/exit_btn_dark.png').convert_alpha()
+        #load button images
+        self.start_img = pygame.image.load('src/img/start_btn.png').convert_alpha()
+        self.exit_img = pygame.image.load('src/img/exit_btn.png').convert_alpha()
         # basic font for user typed
         self.base_font = pygame.font.Font(None, 32)
         self.user_text = ''
@@ -88,11 +84,7 @@ class Menu():
                     else:
                         self.user_text += event.unicode
 
-            # Light Mode
-            # screen.fill((202, 228, 241))
-
-            # Dark Mode
-            screen.fill((8, 20, 305))
+            self.screen.fill((202, 228, 241))
 
             if active:
                 color = color_active

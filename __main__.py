@@ -13,13 +13,14 @@ from src.constants import *
 
 # Link for testing https://youtu.be/-SjPVVeNdKY
 # https://youtu.be/V0e7rFdVYxE
+
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     menu = Menu(screen)
-    wav_file, s, samplerate = menu.menu()
+    wav_file, pitches = menu.menu()
 
     display = DrawActorsAction(wav_file)
-    display.updateNotes(s, samplerate)
+    display.updateNotes(pitches)
     display.updateScreen(wav_file)
 
 if __name__ == "__main__":

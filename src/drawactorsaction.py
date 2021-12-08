@@ -42,29 +42,11 @@ class DrawActorsAction():
     Class: Color
     Description: What does it do? What does it output? What does it use?
     """
-    def updateNotes(self, s, samplerate):
+    def updateNotes(self, pitches):
         '''
             A function to add notes to the self.notes
             dictionary.
         '''
-        win_s = 4096
-        hop_s = 512 
-
-        tolerance = 0.8
-
-        pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
-        pitch_o.set_unit("midi")
-        pitch_o.set_tolerance(tolerance)
-
-        pitches = []
-
-        while True:
-            samples, read = s()
-            pitch = pitch_o(samples)[0]
-            pitches += [pitch]
-            if read < hop_s:
-                break
-
         for pitch in pitches:
             if pitch == 0:
                 pitch = 20    
@@ -75,7 +57,6 @@ class DrawActorsAction():
             noteColor = colorArr[1]
             # Appends the note, the color, the time, the frequency, and the confidence to the notes array
             self.notes.append([noteName, noteColor, pitch])
-
 
     def updateScreen(self, filename):
             
@@ -119,6 +100,9 @@ class DrawActorsAction():
         length = librosa.get_duration(filename=filename)
 
         ts_interval = length / len(self.notes) # Time Interval
+
+        for i in range(15):
+            print(self.notes[i][1])
 
         while self.running:
                 

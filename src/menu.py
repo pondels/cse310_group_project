@@ -134,8 +134,26 @@ class Menu():
                     wav_file = self.downloadvideo.file # Get's the wav file path
                     s = aubio.source(wav_file)
                     samplerate = s.samplerate
+
+                    win_s = 4096
+                    hop_s = 512 
+
+                    tolerance = 0.8
+
+                    pitch_o = aubio.pitch("yin", win_s, hop_s, samplerate)
+                    pitch_o.set_unit("midi")
+                    pitch_o.set_tolerance(tolerance)
+
+                    pitches = []
+
+                    while True:
+                        samples, read = s()
+                        pitch = pitch_o(samples)[0]
+                        pitches += [pitch]
+                        if read < hop_s:
+                            break
                     # Show on screen in Green text DOWNLOADING VIDEO...
-                    return wav_file, s, samplerate
+                    return wav_file, pitches
                 except:
                     failed = True
 
